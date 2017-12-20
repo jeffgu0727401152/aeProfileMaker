@@ -2,4 +2,5 @@
 *.d
 *.xml
 *.txt
+!roland_default.txt
 aeProfileMaker
