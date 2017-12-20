@@ -9,6 +9,8 @@
 #define API_TABLE_MAX 256
 #define API_ARGC_MAX 6
 
+#define ENABLE_FILTER 1
+
 typedef enum wsd_api_idx
 {
     //mixer

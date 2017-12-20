@@ -729,10 +729,16 @@ typedef enum roland_system_cmd
 ***********************************************************************/
 typedef struct dsp_setting_item
 {
-    const char *serial_cmd_name;  //寄存器的名字，ktv app的配置xml文件里面会用这个名字做属性
+    const char *serial_cmd_name;  //寄存器的名字
     uint8_t cmd_default_value;    //寄存器默认值
+
     API_INFO_T * effect_api;      //会受到哪个wsd的API的改动
     int effective_arg_idx;        //在effect api的有效参数中的编号
+
+    const char *profile_xml_name; //在profile xml中保存的属性名
+    const char *profile_xml_node; //在profile xml中保存在哪个node下
+    int profile_value_offset;     //ktv app所使用的值与寄存器值之间的差值
+    const double * translate_table;
 }DSP_SETTING_T;
 
 extern DSP_SETTING_T mixer_settings[mixer_end];
@@ -740,6 +746,12 @@ extern DSP_SETTING_T mic_effects_settings[mic_effects_end];
 extern DSP_SETTING_T delay_settings[delay_end];
 extern DSP_SETTING_T music_effects_settings[music_effects_end];
 extern DSP_SETTING_T output_settings[output_end];
+
+extern const double gHighPass_Freq_Table[70];
+extern const double gLowPass_Freq_Table[112];
+extern const double gPEQ_Freq_Table[61];
+extern const double gPEQ_Gain_Table[121];
+extern const double gPEQ_Q_Table[32];
 /***********************************************************************
 *                                导出函数
 ***********************************************************************/

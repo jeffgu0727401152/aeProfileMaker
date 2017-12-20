@@ -149,6 +149,180 @@ API_INFO_T api_table[WSD_AL_AE_count] =
 void print_wsd_api(FILE* stream)
 {
     int i,j;
+
+#if ENABLE_FILTER
+    debug_print_warn("check every enable api to make sure all is_active api is useable!\n");
+    if (api_table[WSD_AL_AE_MicBasscutEnable].is_active!=true)
+    {
+        api_table[WSD_AL_AE_MicBasscutFrequencySetup].is_active = false;
+    }
+
+    if (api_table[WSD_AL_AE_MicNoiseSuppEnable].is_active!=true)
+    {
+        api_table[WSD_AL_AE_MicNoiseThresholdSetup].is_active = false;
+    }
+
+    if (api_table[WSD_AL_AE_MicCompressorEnable].is_active!=true)
+    {
+        api_table[WSD_AL_AE_MicCompressorSetup].is_active = false;
+    }
+
+    if (api_table[WSD_AL_AE_Mic7bandPeqEnable].is_active!=true)
+    {
+        api_table[WSD_AL_AE_Mic7bandPeqEdgeSetup].is_active = false;
+        api_table[WSD_AL_AE_Mic7bandPeqSetup_band1].is_active = false;
+        api_table[WSD_AL_AE_Mic7bandPeqSetup_band2].is_active = false;
+        api_table[WSD_AL_AE_Mic7bandPeqSetup_band3].is_active = false;
+        api_table[WSD_AL_AE_Mic7bandPeqSetup_band4].is_active = false;
+        api_table[WSD_AL_AE_Mic7bandPeqSetup_band5].is_active = false;
+        api_table[WSD_AL_AE_Mic7bandPeqSetup_band6].is_active = false;
+        api_table[WSD_AL_AE_Mic7bandPeqSetup_band7].is_active = false;
+    }
+
+    if (api_table[WSD_AL_AE_DelayInputLevelSetup].is_active!=true)
+    {
+        api_table[WSD_AL_AE_DelayInput5bandPeqEnable].is_active = false;
+        api_table[WSD_AL_AE_DelayInput5bandPeqEdgeSetup].is_active = false;
+        api_table[WSD_AL_AE_DelayInput5bandPeqSetup_band1].is_active = false;
+        api_table[WSD_AL_AE_DelayInput5bandPeqSetup_band2].is_active = false;
+        api_table[WSD_AL_AE_DelayInput5bandPeqSetup_band3].is_active = false;
+        api_table[WSD_AL_AE_DelayInput5bandPeqSetup_band4].is_active = false;
+        api_table[WSD_AL_AE_DelayInput5bandPeqSetup_band5].is_active = false;
+        api_table[WSD_AL_AE_DelayInputBandpassfilterSetup].is_active = false;
+        api_table[WSD_AL_AE_DelayMasterEffectSetup].is_active = false;
+        api_table[WSD_AL_AE_DelayTapEffectsSetup_tap1].is_active = false;
+        api_table[WSD_AL_AE_DelayTapEffectsSetup_tap2].is_active = false;
+        api_table[WSD_AL_AE_DelayTapEffectsSetup_tap3].is_active = false;
+        api_table[WSD_AL_AE_DelayToReverbLevelSetup].is_active = false;
+        api_table[WSD_AL_AE_DelayOutputSetup].is_active = false;
+    }
+
+    if (api_table[WSD_AL_AE_ReverbInputLevelSetup].is_active!=true)
+    {
+        api_table[WSD_AL_AE_ReverbInput5bandPeqEnable].is_active = false;
+        api_table[WSD_AL_AE_ReverbInput5bandPeqEdgeSetup].is_active = false;
+        api_table[WSD_AL_AE_ReverbInput5bandPeqSetup_band1].is_active = false;
+        api_table[WSD_AL_AE_ReverbInput5bandPeqSetup_band2].is_active = false;
+        api_table[WSD_AL_AE_ReverbInput5bandPeqSetup_band3].is_active = false;
+        api_table[WSD_AL_AE_ReverbInput5bandPeqSetup_band4].is_active = false;
+        api_table[WSD_AL_AE_ReverbInput5bandPeqSetup_band5].is_active = false;
+        api_table[WSD_AL_AE_ReverbInputBandpassfilterSetup].is_active = false;
+        api_table[WSD_AL_AE_ReverbEffectsSetup].is_active = false;
+        api_table[WSD_AL_AE_ReverbOutputSetup].is_active = false;
+    }
+
+    if (api_table[WSD_AL_AE_DelayInput5bandPeqEnable].is_active!=true)
+    {
+        api_table[WSD_AL_AE_DelayInput5bandPeqEdgeSetup].is_active = false;
+        api_table[WSD_AL_AE_DelayInput5bandPeqSetup_band1].is_active = false;
+        api_table[WSD_AL_AE_DelayInput5bandPeqSetup_band2].is_active = false;
+        api_table[WSD_AL_AE_DelayInput5bandPeqSetup_band3].is_active = false;
+        api_table[WSD_AL_AE_DelayInput5bandPeqSetup_band4].is_active = false;
+        api_table[WSD_AL_AE_DelayInput5bandPeqSetup_band5].is_active = false;
+        api_table[WSD_AL_AE_DelayInputBandpassfilterSetup].is_active = false;
+    }
+
+    if (api_table[WSD_AL_AE_ReverbInput5bandPeqEnable].is_active!=true)
+    {
+        api_table[WSD_AL_AE_ReverbInput5bandPeqEdgeSetup].is_active = false;
+        api_table[WSD_AL_AE_ReverbInput5bandPeqSetup_band1].is_active = false;
+        api_table[WSD_AL_AE_ReverbInput5bandPeqSetup_band2].is_active = false;
+        api_table[WSD_AL_AE_ReverbInput5bandPeqSetup_band3].is_active = false;
+        api_table[WSD_AL_AE_ReverbInput5bandPeqSetup_band4].is_active = false;
+        api_table[WSD_AL_AE_ReverbInput5bandPeqSetup_band5].is_active = false;
+        api_table[WSD_AL_AE_ReverbInputBandpassfilterSetup].is_active = false;
+    }
+
+    if (api_table[WSD_AL_AE_Music31bandGeqEnable].is_active!=true)
+    {
+        api_table[WSD_AL_AE_Music31bandGeqSetup_band1].is_active = false;
+        api_table[WSD_AL_AE_Music31bandGeqSetup_band2].is_active = false;
+        api_table[WSD_AL_AE_Music31bandGeqSetup_band3].is_active = false;
+        api_table[WSD_AL_AE_Music31bandGeqSetup_band4].is_active = false;
+        api_table[WSD_AL_AE_Music31bandGeqSetup_band5].is_active = false;
+        api_table[WSD_AL_AE_Music31bandGeqSetup_band6].is_active = false;
+        api_table[WSD_AL_AE_Music31bandGeqSetup_band7].is_active = false;
+        api_table[WSD_AL_AE_Music31bandGeqSetup_band8].is_active = false;
+        api_table[WSD_AL_AE_Music31bandGeqSetup_band9].is_active = false;
+        api_table[WSD_AL_AE_Music31bandGeqSetup_band10].is_active = false;
+        api_table[WSD_AL_AE_Music31bandGeqSetup_band11].is_active = false;
+        api_table[WSD_AL_AE_Music31bandGeqSetup_band12].is_active = false;
+        api_table[WSD_AL_AE_Music31bandGeqSetup_band13].is_active = false;
+        api_table[WSD_AL_AE_Music31bandGeqSetup_band14].is_active = false;
+        api_table[WSD_AL_AE_Music31bandGeqSetup_band15].is_active = false;
+        api_table[WSD_AL_AE_Music31bandGeqSetup_band16].is_active = false;
+        api_table[WSD_AL_AE_Music31bandGeqSetup_band17].is_active = false;
+        api_table[WSD_AL_AE_Music31bandGeqSetup_band18].is_active = false;
+        api_table[WSD_AL_AE_Music31bandGeqSetup_band19].is_active = false;
+        api_table[WSD_AL_AE_Music31bandGeqSetup_band20].is_active = false;
+        api_table[WSD_AL_AE_Music31bandGeqSetup_band21].is_active = false;
+        api_table[WSD_AL_AE_Music31bandGeqSetup_band22].is_active = false;
+        api_table[WSD_AL_AE_Music31bandGeqSetup_band23].is_active = false;
+        api_table[WSD_AL_AE_Music31bandGeqSetup_band24].is_active = false;
+        api_table[WSD_AL_AE_Music31bandGeqSetup_band25].is_active = false;
+        api_table[WSD_AL_AE_Music31bandGeqSetup_band26].is_active = false;
+        api_table[WSD_AL_AE_Music31bandGeqSetup_band27].is_active = false;
+        api_table[WSD_AL_AE_Music31bandGeqSetup_band28].is_active = false;
+        api_table[WSD_AL_AE_Music31bandGeqSetup_band29].is_active = false;
+        api_table[WSD_AL_AE_Music31bandGeqSetup_band30].is_active = false;
+        api_table[WSD_AL_AE_Music31bandGeqSetup_band31].is_active = false;
+    }
+
+    if (api_table[WSD_AL_AE_MusicKeyctrlEnable].is_active!=true)
+    {
+        api_table[WSD_AL_AE_MusicKeyctrlSetup].is_active = false;
+    }
+
+    if (api_table[WSD_AL_AE_Output5bandPeqEnable_rear].is_active!=true)
+    {
+        api_table[WSD_AL_AE_Output5bandPeqEdgeSetup_rear].is_active = false;
+        api_table[WSD_AL_AE_Output5bandPeqSetup_rear_band1].is_active = false;
+        api_table[WSD_AL_AE_Output5bandPeqSetup_rear_band2].is_active = false;
+        api_table[WSD_AL_AE_Output5bandPeqSetup_rear_band3].is_active = false;
+        api_table[WSD_AL_AE_Output5bandPeqSetup_rear_band4].is_active = false;
+        api_table[WSD_AL_AE_Output5bandPeqSetup_rear_band5].is_active = false;
+        api_table[WSD_AL_AE_OutputBandpassfilterSetup_rear].is_active = false;
+    }
+
+    if (api_table[WSD_AL_AE_Output5bandPeqEnable_front].is_active!=true)
+    {
+        api_table[WSD_AL_AE_Output5bandPeqEdgeSetup_front].is_active = false;
+        api_table[WSD_AL_AE_Output5bandPeqSetup_front_band1].is_active = false;
+        api_table[WSD_AL_AE_Output5bandPeqSetup_front_band2].is_active = false;
+        api_table[WSD_AL_AE_Output5bandPeqSetup_front_band3].is_active = false;
+        api_table[WSD_AL_AE_Output5bandPeqSetup_front_band4].is_active = false;
+        api_table[WSD_AL_AE_Output5bandPeqSetup_front_band5].is_active = false;
+        api_table[WSD_AL_AE_OutputBandpassfilterSetup_front].is_active = false;
+    }
+
+    if (api_table[WSD_AL_AE_Output5bandPeqEnable_center].is_active!=true)
+    {
+        api_table[WSD_AL_AE_Output5bandPeqEdgeSetup_center].is_active = false;
+        api_table[WSD_AL_AE_Output5bandPeqSetup_center_band1].is_active = false;
+        api_table[WSD_AL_AE_Output5bandPeqSetup_center_band2].is_active = false;
+        api_table[WSD_AL_AE_Output5bandPeqSetup_center_band3].is_active = false;
+        api_table[WSD_AL_AE_Output5bandPeqSetup_center_band4].is_active = false;
+        api_table[WSD_AL_AE_Output5bandPeqSetup_center_band5].is_active = false;
+        api_table[WSD_AL_AE_OutputBandpassfilterSetup_center].is_active = false;
+    }
+
+    if (api_table[WSD_AL_AE_Output5bandPeqEnable_subwoofer].is_active!=true)
+    {
+        api_table[WSD_AL_AE_Output5bandPeqEdgeSetup_subwoofer].is_active = false;
+        api_table[WSD_AL_AE_Output5bandPeqSetup_subwoofer_band1].is_active = false;
+        api_table[WSD_AL_AE_Output5bandPeqSetup_subwoofer_band2].is_active = false;
+        api_table[WSD_AL_AE_Output5bandPeqSetup_subwoofer_band3].is_active = false;
+        api_table[WSD_AL_AE_Output5bandPeqSetup_subwoofer_band4].is_active = false;
+        api_table[WSD_AL_AE_Output5bandPeqSetup_subwoofer_band5].is_active = false;
+        api_table[WSD_AL_AE_OutputBandpassfilterSetup_subwoofer].is_active = false;
+    }
+
+    if (api_table[WSD_AL_AE_OutputSubwooferCompressorEnable].is_active!=true)
+    {
+        api_table[WSD_AL_AE_OutputSubwooferCompressorSetup].is_active = false;
+    }
+#endif
+
     for (i=0; i<WSD_AL_AE_count; i++)
     {
         if (api_table[i].is_active==true)

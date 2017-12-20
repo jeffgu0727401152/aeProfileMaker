@@ -14,14 +14,33 @@
 
 pugi::xml_document profileXml;
 
-static bool xml_add_attribute_to_node(const char* node_name,const char* attribute,int value)
+static bool xml_add_attribute_to_node(const char* node_name,const char* attribute,const int value)
 {
     pugi::xml_node root_node = profileXml.child(ROOT_NODE_NAME);
     pugi::xml_node current_node = root_node.child(node_name);
     if (attribute)
     {
-        debug_print_info("attribute %s=%d\n",attribute,value);
+        debug_print_info("add int attribute %s=%d\n",attribute,value);
         current_node.append_attribute(attribute) = value;
+        return true;
+    }
+    else
+    {
+        debug_print_warn("attribute is NULL, could not add!\n");
+        return false;
+    }
+}
+
+static bool xml_add_attribute_to_node(const char* node_name,const char* attribute,const double value)
+{
+    pugi::xml_node root_node = profileXml.child(ROOT_NODE_NAME);
+    pugi::xml_node current_node = root_node.child(node_name);
+    if (attribute)
+    {
+        debug_print_info("add double attribute %s=%lf\n",attribute,value);
+        char cValue[16];
+        sprintf(cValue, "%lf", value);
+        current_node.append_attribute(attribute) = cValue;
         return true;
     }
     else
@@ -45,8 +64,8 @@ bool xml_create_profile()
     root_node.append_child(REVERB_NODE_NAME);
     root_node.append_child(REAR_NODE_NAME);
     root_node.append_child(FRONT_NODE_NAME);
-    root_node.append_child(SUBWOOFER_NODE_NAME);
     root_node.append_child(CENTER_NODE_NAME);
+    root_node.append_child(SUBWOOFER_NODE_NAME);
 
     return true;
 }
@@ -58,130 +77,67 @@ bool xml_save_profile(const char* save_path)
 
 bool xml_profile_add(DSP_SETTING_T* attribute_name_table, unsigned long block_id, unsigned long cmd_idx, unsigned long value)
 {
-    switch(block_id)
+    int store_double = 0;
+    int attribute_value_int = value + attribute_name_table[cmd_idx].profile_value_offset;
+    double attribute_value_double = 0.0f;
+
+    debug_print_info("%s(0x%lx) in block_id(0x%lx),xml node is \"%s\"\n",
+            attribute_name_table[cmd_idx].serial_cmd_name,cmd_idx,block_id,attribute_name_table[cmd_idx].profile_xml_node);
+
+    if (attribute_name_table[cmd_idx].profile_xml_node==NULL)
     {
-    case roland_mixer_block:
-        switch(cmd_idx)
-        {
-        case mic1_input_level:
-        case mic2_input_level:
-        //case mic_input_level:
-        //case mic_direct_level:
-        case aux_to_mic:
-            xml_add_attribute_to_node(MICINPUT_NODE_NAME, attribute_name_table[cmd_idx].serial_cmd_name, value);
-        break;
-
-        //case music_input_level:
-        case aux_to_music:
-            xml_add_attribute_to_node(MUSICINPUT_NODE_NAME, attribute_name_table[cmd_idx].serial_cmd_name, value);
-        break;
-
-        case front_mic_dry_level:
-        case front_music_level:
-        case front_output_level:
-        case front_mic_delay_level:
-        case front_mic_reverb_level:
-            xml_add_attribute_to_node(FRONT_NODE_NAME, attribute_name_table[cmd_idx].serial_cmd_name, value);
-        break;
-
-        case rear_output_level:
-        case rear_mic_dry_level:
-        case rear_music_level:
-        case rear_mic_delay_level:
-        case rear_mic_reverb_level:
-            xml_add_attribute_to_node(REAR_NODE_NAME, attribute_name_table[cmd_idx].serial_cmd_name, value);
-        break;
-
-        case subwoofer_output_level:
-        case subwoofer_mic_dry_level:
-        case subwoofer_music_level:
-        case subwoofer_mic_delay_level:
-        case subwoofer_mic_reverb_level:
-            xml_add_attribute_to_node(SUBWOOFER_NODE_NAME, attribute_name_table[cmd_idx].serial_cmd_name, value);
-        break;
-
-        case center_output_level:
-        case center_mic_level:
-        case center_music_level:
-        case center_mic_delay_level:
-        case center_mic_reverb_level:
-//        case center_subwoofer_switch_stereo:
-            xml_add_attribute_to_node(CENTER_NODE_NAME, attribute_name_table[cmd_idx].serial_cmd_name, value);
-        break;
-
-        default:
-            debug_print_warn("ignore %s(0x%lx) in block_id 0x%lx!\n",attribute_name_table[cmd_idx].serial_cmd_name,cmd_idx,block_id);
-        break;
-        }
-        break;
-
-
-    case roland_mic_effects_block:
-        xml_add_attribute_to_node(MICINPUT_NODE_NAME, attribute_name_table[cmd_idx].serial_cmd_name, value);
-        break;
-
-    case roland_echo_block:
-        if (cmd_idx==delay_to_reverb_level)
-        {
-            xml_add_attribute_to_node(REVERB_NODE_NAME, attribute_name_table[cmd_idx].serial_cmd_name, value);
-        }
-        else if (cmd_idx<=delay_phase)
-        {
-            xml_add_attribute_to_node(ECHO_NODE_NAME, attribute_name_table[cmd_idx].serial_cmd_name, value);
-        }
-        else if(cmd_idx<=reverb_phase)
-        {
-            xml_add_attribute_to_node(REVERB_NODE_NAME, attribute_name_table[cmd_idx].serial_cmd_name, value);
-        }
-        else if(cmd_idx==mic_dry_phase)
-        {
-            xml_add_attribute_to_node(MICINPUT_NODE_NAME, attribute_name_table[cmd_idx].serial_cmd_name, value);
-        }
-        else if(cmd_idx<=delay_eq_lpf_frequency)
-        {
-            xml_add_attribute_to_node(ECHO_NODE_NAME, attribute_name_table[cmd_idx].serial_cmd_name, value);
-        }
-        else if(cmd_idx<=reverb_eq_lpf_frequency)
-        {
-            xml_add_attribute_to_node(REVERB_NODE_NAME, attribute_name_table[cmd_idx].serial_cmd_name, value);
-        }
-        else
-        {
-            debug_print_warn("ignore %s(0x%lx) in block_id 0x%lx!\n",attribute_name_table[cmd_idx].serial_cmd_name,cmd_idx,block_id);
-        }
-        break;
-
-    case roland_music_effects_block:
-        xml_add_attribute_to_node(MUSICINPUT_NODE_NAME, attribute_name_table[cmd_idx].serial_cmd_name, value);
-        break;
-
-    case roland_output_block:
-        if (cmd_idx<=front_phase)
-        {
-            xml_add_attribute_to_node(FRONT_NODE_NAME, attribute_name_table[cmd_idx].serial_cmd_name, value);
-        }
-        else if (cmd_idx<=rear_phase)
-        {
-            xml_add_attribute_to_node(REAR_NODE_NAME, attribute_name_table[cmd_idx].serial_cmd_name, value);
-        }
-        else if (cmd_idx<=center_phase)
-        {
-            xml_add_attribute_to_node(CENTER_NODE_NAME, attribute_name_table[cmd_idx].serial_cmd_name, value);
-        }
-        else if (cmd_idx<=subwoofer_compressor_gain)
-        {
-            xml_add_attribute_to_node(SUBWOOFER_NODE_NAME, attribute_name_table[cmd_idx].serial_cmd_name, value);
-        }
-        else
-        {
-            debug_print_warn("ignore %s(0x%lx) in block_id 0x%lx!\n",attribute_name_table[cmd_idx].serial_cmd_name,cmd_idx,block_id);
-        }
-        break;
-
-    default:
-        debug_print_warn("unknown block_id 0x%lx!\n",block_id);
+        debug_print_warn("no xml node name, ignore %s(0x%lx) in block_id(0x%lx)!\n",attribute_name_table[cmd_idx].serial_cmd_name,cmd_idx,block_id);
         return false;
-        break;
     }
+
+    if (attribute_name_table[cmd_idx].translate_table!=NULL)
+    {
+        unsigned int table_size = 0;
+        store_double = 1;
+
+        if (attribute_name_table[cmd_idx].translate_table == gHighPass_Freq_Table)
+        {
+            table_size = sizeof(gHighPass_Freq_Table)/sizeof(double);
+        }
+        else if (attribute_name_table[cmd_idx].translate_table == gLowPass_Freq_Table)
+        {
+            table_size = sizeof(gLowPass_Freq_Table)/sizeof(double);
+        }
+        else if (attribute_name_table[cmd_idx].translate_table == gPEQ_Freq_Table)
+        {
+            table_size = sizeof(gPEQ_Freq_Table)/sizeof(double);
+        }
+        else if (attribute_name_table[cmd_idx].translate_table == gPEQ_Gain_Table)
+        {
+            table_size = sizeof(gPEQ_Gain_Table)/sizeof(double);
+        }
+        else if (attribute_name_table[cmd_idx].translate_table == gPEQ_Q_Table)
+        {
+            table_size = sizeof(gPEQ_Q_Table)/sizeof(double);
+        }
+        else
+        {
+            debug_print_error("unknown table!!!\n");
+            return false;
+        }
+
+        if ( attribute_value_int<0 || attribute_value_int>=table_size)
+        {
+            debug_print_error("attribute_value_int(%d) is not in translate_table size(%u)!!!\n",attribute_value_int,table_size);
+            return false;
+        }
+
+        attribute_value_double = attribute_name_table[cmd_idx].translate_table[attribute_value_int];
+    }
+
+    if (store_double)
+    {
+        xml_add_attribute_to_node(attribute_name_table[cmd_idx].profile_xml_node, attribute_name_table[cmd_idx].profile_xml_name, attribute_value_double);
+    }
+    else
+    {
+        xml_add_attribute_to_node(attribute_name_table[cmd_idx].profile_xml_node, attribute_name_table[cmd_idx].profile_xml_name, attribute_value_int);
+    }
+
     return true;
 }

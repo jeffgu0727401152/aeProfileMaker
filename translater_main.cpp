@@ -143,7 +143,7 @@ int main(int argc, char *argv[])
 
             line_num++;
 
-            debug_print_info("====parsing line(%d)====\n",line_num);
+            debug_print_info("============parsing line(%d)============\n",line_num);
             debug_print_info("raw context=\"%s\", lenth=%lu \n",oneline,strlen(oneline));
 
             //去行尾换行符与空格
@@ -171,7 +171,7 @@ int main(int argc, char *argv[])
             if ( strncmp("[RX]",cursor,4) && strncmp("[rx]",cursor,4)
                     && strncmp("[Rx]",cursor,4) && strncmp("[rX]",cursor,4))
             {
-                debug_print_info("ignore line with [Rx] in header\n");
+                debug_print_info("ignore line with [Tx] in header\n");
                 continue;
             }
 

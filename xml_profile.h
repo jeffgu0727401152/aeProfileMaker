@@ -14,7 +14,7 @@
 #define REVERB_NODE_NAME      "Reverb"
 #define REAR_NODE_NAME        "RearOutput"
 #define FRONT_NODE_NAME       "FrontOutput"
-#define SUBWOOFER_NODE_NAME   "SubwooferOutput"
+#define SUBWOOFER_NODE_NAME   "Subwoofer"
 #define CENTER_NODE_NAME      "CenterOutput"
 
 bool xml_create_profile();
