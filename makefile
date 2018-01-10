@@ -4,9 +4,10 @@ SOURCE_FILES = translater_main.cpp \
                roland_cmd.cpp \
                wsd_api.cpp \
                xml_profile.cpp \
-               debug_config.cpp
+               debug_config.cpp \
+               pugixml/pugixml.cpp
 
-STATIC_LIB = pugixml/libpugixml.a
+STATIC_LIB =
 
 OBJ = $(SOURCE_FILES:.cpp=.o)
 
