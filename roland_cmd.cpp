@@ -661,7 +661,7 @@ static void delay_settings_default()
     delay_settings[delay_tone_gain].cmd_default_value = 0x40;
     delay_settings[delay_tone_gain].effective_arg_idx = 3;
     delay_settings[delay_tone_gain].profile_xml_name = "ToneLevel";
-    delay_settings[delay_tone_gain].profile_value_offset = -57;
+    delay_settings[delay_tone_gain].profile_value_offset = 0;
     delay_settings[delay_tone_gain].translate_table = NULL;
     delay_settings[delay_tone_gain].profile_xml_node = ECHO_NODE_NAME;
 
